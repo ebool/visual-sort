@@ -1,13 +1,13 @@
 <template>
   <div class="selection-sort">
     <h3>Selection Sort</h3>
-    <h3>smallest : {{smallest}}</h3>
+    <h3>smallest - index:{{smallest}}, value:{{items[smallest]}}</h3>
     <h3>index : {{index}}</h3>
     <transition-group name="flip-list" tag="ul" class="container">
       <li 
-      class="item" 
+      class="item"
       v-for="(item, i) in items" :key="item"
-      :class="{focused : i === index}"
+      :class="{focused : i === index, selected : i === smallest, sorted : i < sortedIndex}"
       :style="{height: (item + 1) * 8 + 'px'}">
       </li>
     </transition-group>
@@ -36,7 +36,7 @@ export default {
       count: 20,
       isAuto: false,
       autoTimer: null,
-      smallest: null
+      smallest: 0
     }
   },
   watch: {
@@ -60,29 +60,24 @@ export default {
       this.sortedIndex = 0;
       this.index = 0;
       this.isAuto = false;
-      this.smallest = this.items[0];
+      this.smallest = 0;
     },
     sort () {
+      if (this.isEnd) {
+        this.reset();
+        return;
+      }
       if (this.items[this.index + 1] < this.items[this.smallest]) {
         this.smallest = this.index + 1;
       }
       if (this.count - 1 <= this.index) {
         this.items = changeItem(this.items, this.sortedIndex, this.smallest)
         this.sortedIndex++;
+        this.smallest = this.sortedIndex;
         this.index = this.sortedIndex;
         return;
       }
       this.index++;
-      // if (this.items[this.index] > this.items[this.index + 1]) {
-      //   this.items = changeItem(this.items, this.index, this.index + 1);
-      // }
-      // if (this.index >= this.items.length - this.sortedIndex - 2) {
-      //   this.index = 0;
-      //   this.sortedIndex++;
-      //   if (this.isEnd) this.reset();
-      //   return;
-      // }
-      // this.index++;
     },
     autoSort () {
       if (this.isAuto) {
@@ -112,7 +107,6 @@ export default {
   },
   mounted () {
     this.items = shuffle(makeArray(this.count));
-    this.reset();
   }
 }
 </script>
@@ -131,7 +125,13 @@ export default {
       list-style: none;
     }
     .focused {
-      background-color: palevioletred;
+      background-color: palevioletred !important;
+    }
+    .sorted {
+      background-color: grey;
+    }
+    .selected {
+      background-color: greenyellow;
     }
 
     .item {
