@@ -1,6 +1,6 @@
 <template>
   <div class="bubble-sort">
-    <h3>bubble sort</h3>
+    <h3>거품 정렬</h3>
     <transition-group name="flip-list" tag="ul" class="container">
       <li 
       class="item" 
@@ -9,12 +9,15 @@
       :style="{height: (item + 1) * 8 + 'px'}">
       </li>
     </transition-group>
-    <div class="control-box">
-      <h4>sort button</h4>
-      <button @click="sort">1 step</button>
-      <button @click="autoSort">{{getButtonName}}</button>
-      <button @click="shuffle">shuffle!!!!</button>
-    </div>
+    <color-explains
+    :focused="true"
+    :sorted="true"
+    ></color-explains>
+    <control-box
+    @oneStep="sort"
+    @auto="autoSort"
+    @shuffle="shuffle"
+    ></control-box>
     <div class="option-box">
       <h4>options</h4>
       개수 : <input type="tel" v-model="count" maxlength="2"><br>
@@ -23,9 +26,15 @@
 </template>
 
 <script>
-import {makeArray, shuffle, changeItem} from '@/assets/js/utils.js'
+import {makeArray, shuffle, changeItem} from '@/assets/js/utils.js';
+import ColorExplains from './commons/ColorExplains.vue';
+import ControlBox from './commons/ControlBox.vue';
 
 export default {
+  components: {
+    ColorExplains,
+    ControlBox
+  },
   data () {
     return {
       items: [],

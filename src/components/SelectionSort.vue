@@ -1,8 +1,6 @@
 <template>
   <div class="selection-sort">
-    <h3>Selection Sort</h3>
-    <h3>smallest - index:{{smallest}}, value:{{items[smallest]}}</h3>
-    <h3>index : {{index}}</h3>
+    <h3>선택 정렬</h3>
     <transition-group name="flip-list" tag="ul" class="container">
       <li 
       class="item"
@@ -11,6 +9,11 @@
       :style="{height: (item + 1) * 8 + 'px'}">
       </li>
     </transition-group>
+    <color-explains
+    :focused="true"
+    :sorted="true"
+    :selected="true"
+    ></color-explains>
     <div class="control-box">
       <h4>sort button</h4>
       <button @click="sort">1 step</button>
@@ -26,8 +29,12 @@
 
 <script>
 import {makeArray, shuffle, changeItem} from '@/assets/js/utils.js'
+import ColorExplains from './commons/ColorExplains.vue';
 
 export default {
+  components: {
+    ColorExplains
+  },
   data () {
     return {
       items: [],
