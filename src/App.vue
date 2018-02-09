@@ -11,14 +11,14 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import "src/assets/css/reset.scss";
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-}
-h1 {
-  margin: 10px 0px 0px 10px;
+  padding: 10px;
 }
 </style>
