@@ -111,6 +111,8 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+@import 'src/assets/css/color.scss';
+
 .selection-sort {
   .container {
     display: flex;
@@ -125,18 +127,18 @@ export default {
       list-style: none;
     }
     .focused {
-      background-color: palevioletred !important;
+      background-color: $focused !important;
     }
     .sorted {
-      background-color: grey;
+      background-color: $sorted;
     }
     .selected {
-      background-color: greenyellow;
+      background-color: $selected;
     }
 
     .item {
       width: 5px;
-      border: 1px solid gray;
+      border: 1px solid $block-border;
       margin-left: 5px;
     }
   }

@@ -102,6 +102,8 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+@import "src/assets/css/color.scss";
+
 .bubble-sort {
   .container {
     display: flex;
@@ -116,15 +118,15 @@ export default {
       list-style: none;
     }
     .focused {
-      background-color: palevioletred;
+      background-color: $focused;
     }
     .sorted {
-      background-color: grey;
+      background-color: $sorted;
     }
 
     .item {
       width: 5px;
-      border: 1px solid gray;
+      border: 1px solid $block-border;
       margin-left: 5px;
     }
   }
