@@ -5,7 +5,7 @@
       <li 
       class="item" 
       v-for="(item, i) in items" :key="item"
-      :class="{focused : i === index}"
+      :class="{focused : i === index, sorted : i > items.length - sortedIndex - 1}"
       :style="{height: (item + 1) * 8 + 'px'}">
       </li>
     </transition-group>
@@ -31,7 +31,7 @@ export default {
       items: [],
       index: 0,
       sortedIndex: 0,
-      count: 30,
+      count: 20,
       isAuto: false,
       autoTimer: null
     }
@@ -117,6 +117,9 @@ export default {
     }
     .focused {
       background-color: palevioletred;
+    }
+    .sorted {
+      background-color: grey;
     }
 
     .item {
