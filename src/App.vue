@@ -1,13 +1,18 @@
 <template>
   <div id="app">
-    <h1>Visual Sort</h1>
+    <h1 @click="goToHome">Visual Sort</h1>
     <router-view/>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  methods: {
+    goToHome () {
+      this.$router.push('/');
+    }
+  }
 }
 </script>
 
