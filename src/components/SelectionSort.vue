@@ -14,12 +14,13 @@
     :sorted="true"
     :selected="true"
     ></color-explains>
-    <div class="control-box">
-      <h4>sort button</h4>
-      <button @click="sort">1 step</button>
-      <button @click="autoSort">{{getButtonName}}</button>
-      <button @click="shuffle">shuffle!!!!</button>
-    </div>
+    <control-box
+    :isRunning="isRunning"
+    @oneStep="sort"
+    @runAutoSort="runAutoSort"
+    @stopAutoSort="stopAutoSort"
+    @shuffle="shuffle"
+    ></control-box>
     <div class="option-box">
       <h4>options</h4>
       개수 : <input type="tel" v-model="count" maxlength="2"><br>
@@ -30,10 +31,12 @@
 <script>
 import {makeArray, shuffle, changeItem} from '@/assets/js/utils.js'
 import ColorExplains from './commons/ColorExplains.vue';
+import ControlBox from './commons/ControlBox.vue';
 
 export default {
   components: {
-    ColorExplains
+    ColorExplains,
+    ControlBox
   },
   data () {
     return {
@@ -41,7 +44,7 @@ export default {
       index: 0,
       sortedIndex: 0,
       count: 20,
-      isAuto: false,
+      isRunning: false,
       autoTimer: null,
       smallest: 0
     }
@@ -55,7 +58,7 @@ export default {
   },
   computed: {
     getButtonName () {
-      return this.isAuto ? 'stop!!' : 'auto sort';
+      return this.isRunning ? 'stop!!' : 'auto sort';
     },
     isEnd () {
       return this.sortedIndex >= this.items.length - 1;
@@ -66,7 +69,7 @@ export default {
       this.clearAutoTimer();
       this.sortedIndex = 0;
       this.index = 0;
-      this.isAuto = false;
+      this.isRunning = false;
       this.smallest = 0;
     },
     sort () {
@@ -86,14 +89,13 @@ export default {
       }
       this.index++;
     },
-    autoSort () {
-      if (this.isAuto) {
-        this.isAuto = false;
-        this.clearAutoTimer();
-      } else {
-        this.isAuto = true;
-        this.autoTimer = this.setAutoTimer();
-      }
+    runAutoSort () {
+      this.isRunning = true;
+      this.autoTimer = this.setAutoTimer();
+    },
+    stopAutoSort () {
+      this.isRunning = false;
+      this.clearAutoTimer();
     },
     setAutoTimer () {
       let vue = this;
@@ -105,7 +107,7 @@ export default {
       clearInterval(this.autoTimer);
     },
     shuffle () {
-      if (this.isAuto) {
+      if (this.isRunning) {
         return;
       }
       this.reset();

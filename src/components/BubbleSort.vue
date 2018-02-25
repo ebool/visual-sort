@@ -14,8 +14,10 @@
     :sorted="true"
     ></color-explains>
     <control-box
+    :isRunning="isRunning"
     @oneStep="sort"
-    @auto="autoSort"
+    @runAutoSort="runAutoSort"
+    @stopAutoSort="stopAutoSort"
     @shuffle="shuffle"
     ></control-box>
     <div class="option-box">
@@ -41,7 +43,7 @@ export default {
       index: 0,
       sortedIndex: 0,
       count: 20,
-      isAuto: false,
+      isRunning: false,
       autoTimer: null
     }
   },
@@ -54,7 +56,7 @@ export default {
   },
   computed: {
     getButtonName () {
-      return this.isAuto ? 'stop!!' : 'auto sort';
+      return this.isRunning ? 'stop!!' : 'auto sort';
     },
     isEnd () {
       return this.sortedIndex >= this.items.length - 1;
@@ -65,7 +67,7 @@ export default {
       this.clearAutoTimer();
       this.sortedIndex = 0;
       this.index = 0;
-      this.isAuto = false;
+      this.isRunning = false;
     },
     sort () {
       if (this.items[this.index] > this.items[this.index + 1]) {
@@ -79,14 +81,13 @@ export default {
       }
       this.index++;
     },
-    autoSort () {
-      if (this.isAuto) {
-        this.isAuto = false;
-        this.clearAutoTimer();
-      } else {
-        this.isAuto = true;
-        this.autoTimer = this.setAutoTimer();
-      }
+    runAutoSort () {
+      this.isRunning = true;
+      this.autoTimer = this.setAutoTimer();
+    },
+    stopAutoSort () {
+      this.isRunning = false;
+      this.clearAutoTimer();
     },
     setAutoTimer () {
       let vue = this;
@@ -98,7 +99,7 @@ export default {
       clearInterval(this.autoTimer);
     },
     shuffle () {
-      if (this.isAuto) {
+      if (this.isRunning) {
         return;
       }
       this.reset();

@@ -2,24 +2,34 @@
   <div class="control-box">
     <div class="title">정렬 버튼</div>
     <div class="button-container">
-      <button @click="oneStep">한 단계씩</button>
-      <button @click="auto">자동 정렬</button>
-      <button @click="shuffle">뒤섞기</button>
+      <button :class="{'disabled' : isRunning}" @click="oneStep">한 단계씩</button>
+      <button @click="auto">{{getButtonName}}</button>
+      <button :class="{'disabled' : isRunning}" @click="shuffle">뒤섞기</button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  props: ['isRunning'],
   methods: {
     oneStep () {
-      this.$emit('oneStep');
+      if (!this.isRunning) this.$emit('oneStep');
     },
     auto () {
-      this.$emit('auto');
+      if (this.isRunning) {
+        this.$emit('stopAutoSort');
+      } else {
+        this.$emit('runAutoSort');
+      }
     },
     shuffle () {
-      this.$emit('shuffle');
+      if (!this.isRunning) this.$emit('shuffle');
+    }
+  },
+  computed: {
+    getButtonName () {
+      return this.isRunning ? '멈추기' : '자동정렬';
     }
   }
 }
@@ -50,6 +60,14 @@ export default {
     }
     button:hover {
       box-shadow: 3px 4px rgba(88, 88, 88, 0.27);
+    }
+
+    .disabled {
+      background-color: grey;
+      box-shadow: 0px 0px;
+    }
+    .disabled:hover {
+      box-shadow: 0px 0px;
     }
   }
 }
