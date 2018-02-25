@@ -142,13 +142,14 @@ export default {
       background-color: $sorted;
     }
     .selected {
-      background-color: $selected;
+      border: 2px solid $selected !important;
     }
 
     .item {
-      width: 5px;
+      width: 8px;
       border: 1px solid $block-border;
       margin-left: 5px;
+      box-sizing: border-box;
     }
   }
 }

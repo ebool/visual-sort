@@ -55,7 +55,7 @@ export default {
   .selected {
     @extend .arrange;
     .color {
-      background-color: $selected;
+      border: 2px solid $selected;
     }
   }
 }
