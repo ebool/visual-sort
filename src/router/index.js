@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import BubbleSort from '@/components/sort/BubbleSort'
 import SelectionSort from '@/components/sort/SelectionSort'
-import InsertionSort from '@/components/sort/InsertionSort'
 import index from '@/components/index'
 
 Vue.use(Router)
@@ -19,11 +18,6 @@ export default new Router({
       path: '/selection',
       name: 'selectionSort',
       component: SelectionSort
-    },
-    {
-      path: '/insertion',
-      name: 'insertionSort',
-      component: InsertionSort
     },
     {
       path: '/',
