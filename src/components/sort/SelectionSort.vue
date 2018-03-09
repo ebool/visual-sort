@@ -1,14 +1,12 @@
 <template>
   <div class="selection-sort">
-    <h3>선택 정렬</h3>
-    <transition-group name="flip-list" tag="ul" class="container">
-      <li 
-      class="item"
-      v-for="(item, i) in items" :key="item"
-      :class="{focused : i === index, selected : i === smallest, sorted : i < sortedIndex}"
-      :style="{height: (item + 1) * 8 + 'px'}">
-      </li>
-    </transition-group>
+    <sort-visualization
+    :list="items"
+    :isFocused="(i) => {return i === index}"
+    :isSorted="(i) => {return i < sortedIndex}"
+    :isSelected="(i) => {return i === smallest}"
+    >
+    </sort-visualization>
     <color-explains
     :focused="true"
     :sorted="true"
@@ -29,14 +27,16 @@
 </template>
 
 <script>
-import {makeArray, shuffle, changeItem} from '@/assets/js/utils.js'
+import {makeArray, shuffle, changeItem} from '@/assets/js/utils.js';
+import SortVisualization from './commons/SortVisualization.vue';
 import ColorExplains from './commons/ColorExplains.vue';
 import ControlBox from './commons/ControlBox.vue';
 
 export default {
   components: {
     ColorExplains,
-    ControlBox
+    ControlBox,
+    SortVisualization
   },
   data () {
     return {
@@ -141,9 +141,7 @@ export default {
     .sorted {
       background-color: $sorted;
     }
-    .selected {
-      border: 2px solid $selected !important;
-    }
+    
 
     .item {
       width: 8px;

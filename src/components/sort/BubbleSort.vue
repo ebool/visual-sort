@@ -1,14 +1,10 @@
 <template>
   <div class="bubble-sort">
-    <h3>거품 정렬</h3>
-    <transition-group name="flip-list" tag="ul" class="container">
-      <li 
-      class="item" 
-      v-for="(item, i) in items" :key="item"
-      :class="{focused : i === index, sorted : i > items.length - sortedIndex - 1}"
-      :style="{height: (item + 1) * 8 + 'px'}">
-      </li>
-    </transition-group>
+    <sort-visualization
+    :list="items"
+    :isSorted="(i) => {return i > items.length - sortedIndex - 1}"
+    :isFocused="(i) => {return i === index}"
+    ></sort-visualization>
     <color-explains
     :focused="true"
     :sorted="true"
@@ -29,13 +25,15 @@
 
 <script>
 import {makeArray, shuffle, changeItem} from '@/assets/js/utils.js';
+import SortVisualization from './commons/SortVisualization.vue';
 import ColorExplains from './commons/ColorExplains.vue';
 import ControlBox from './commons/ControlBox.vue';
 
 export default {
   components: {
     ColorExplains,
-    ControlBox
+    ControlBox,
+    SortVisualization
   },
   data () {
     return {
@@ -112,33 +110,4 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-@import "src/assets/css/color.scss";
-
-.bubble-sort {
-  .container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    .flip-list-move {
-      transition: transform .3s;
-    }
-
-    li {
-      list-style: none;
-    }
-    .focused {
-      background-color: $focused;
-    }
-    .sorted {
-      background-color: $sorted;
-    }
-
-    .item {
-      width: 5px;
-      border: 1px solid $block-border;
-      margin-left: 5px;
-    }
-  }
-}
 </style>
