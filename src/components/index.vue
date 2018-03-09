@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div class="button-container">
     <router-link to="bubble">거품정렬</router-link>
     <router-link to="selection">선택정렬</router-link>
@@ -8,10 +9,37 @@
 
 <script>
 export default {
+=======
+  <v-app dark class="v-app">
+    <action-bar></action-bar>
+    <navigation-drawer></navigation-drawer>
+    <v-content>
+      <v-container fluid fill-height>
+        <v-layout justify-center align-center>
+          <v-flex shrink>
+            <router-view></router-view>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-content>
+  </v-app>
+</template>
+
+<script>
+import ActionBar from 'commons/ActionBar.vue';
+import NavigationDrawer from 'commons/NavigationDrawer.vue';
+
+export default {
+  components: {
+    ActionBar,
+    NavigationDrawer
+  }
+>>>>>>> adapt-vutify
 }
 </script>
 
 <style lang="scss" scoped>
+<<<<<<< HEAD
 .button-container {
   display: flex;
   flex-direction: column;
@@ -35,4 +63,7 @@ export default {
     margin-top: 10px;
   }
 }
+=======
+@import '~node/vuetify/dist/vuetify.min.css';
+>>>>>>> adapt-vutify
 </style>

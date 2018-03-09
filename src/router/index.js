@@ -10,19 +10,19 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '/bubble',
-      name: 'bubbleSort',
-      component: BubbleSort
-    },
-    {
-      path: '/selection',
-      name: 'selectionSort',
-      component: SelectionSort
-    },
-    {
       path: '/',
       name: 'index',
-      component: index
+      component: index,
+      children: [
+        {
+          path: 'bubble',
+          component: BubbleSort
+        },
+        {
+          path: 'selection',
+          component: SelectionSort
+        }
+      ]
     }
   ]
 })
