@@ -14,10 +14,9 @@
     ></color-explains>
     <control-box
     :isRunning="isRunning"
-    @oneStep="sort"
-    @runAutoSort="runAutoSort"
-    @stopAutoSort="stopAutoSort"
-    @shuffle="shuffle"
+    :next="sort"
+    :auto="isRunning ? stopAutoSort : runAutoSort"
+    :shuffle="shuffle"
     ></control-box>
     <div class="option-box">
       <h4>options</h4>
