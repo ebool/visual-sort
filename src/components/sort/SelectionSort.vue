@@ -1,17 +1,18 @@
 <template>
-  <div class="bubble-sort">
-    <h3>거품 정렬</h3>
+  <div class="selection-sort">
+    <h3>선택 정렬</h3>
     <transition-group name="flip-list" tag="ul" class="container">
       <li 
-      class="item" 
+      class="item"
       v-for="(item, i) in items" :key="item"
-      :class="{focused : i === index, sorted : i > items.length - sortedIndex - 1}"
+      :class="{focused : i === index, selected : i === smallest, sorted : i < sortedIndex}"
       :style="{height: (item + 1) * 8 + 'px'}">
       </li>
     </transition-group>
     <color-explains
     :focused="true"
     :sorted="true"
+    :selected="true"
     ></color-explains>
     <control-box
     :isRunning="isRunning"
@@ -28,9 +29,9 @@
 </template>
 
 <script>
-import {makeArray, shuffle, changeItem} from '@/assets/js/utils.js';
-import ColorExplains from './commons/ColorExplains.vue';
-import ControlBox from './commons/ControlBox.vue';
+import {makeArray, shuffle, changeItem} from '@/assets/js/utils.js'
+import ColorExplains from '../commons/ColorExplains.vue';
+import ControlBox from '../commons/ControlBox.vue';
 
 export default {
   components: {
@@ -44,7 +45,8 @@ export default {
       sortedIndex: 0,
       count: 20,
       isRunning: false,
-      autoTimer: null
+      autoTimer: null,
+      smallest: 0
     }
   },
   watch: {
@@ -68,15 +70,21 @@ export default {
       this.sortedIndex = 0;
       this.index = 0;
       this.isRunning = false;
+      this.smallest = 0;
     },
     sort () {
-      if (this.items[this.index] > this.items[this.index + 1]) {
-        this.items = changeItem(this.items, this.index, this.index + 1);
+      if (this.isEnd) {
+        this.reset();
+        return;
       }
-      if (this.index >= this.items.length - this.sortedIndex - 2) {
-        this.index = 0;
+      if (this.items[this.index + 1] < this.items[this.smallest]) {
+        this.smallest = this.index + 1;
+      }
+      if (this.count - 1 <= this.index) {
+        this.items = changeItem(this.items, this.sortedIndex, this.smallest)
         this.sortedIndex++;
-        if (this.isEnd) this.reset();
+        this.smallest = this.sortedIndex;
+        this.index = this.sortedIndex;
         return;
       }
       this.index++;
@@ -112,9 +120,9 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-@import "src/assets/css/color.scss";
+@import 'src/assets/css/color.scss';
 
-.bubble-sort {
+.selection-sort {
   .container {
     display: flex;
     align-items: center;
@@ -128,16 +136,20 @@ export default {
       list-style: none;
     }
     .focused {
-      background-color: $focused;
+      background-color: $focused !important;
     }
     .sorted {
       background-color: $sorted;
     }
+    .selected {
+      border: 2px solid $selected !important;
+    }
 
     .item {
-      width: 5px;
+      width: 8px;
       border: 1px solid $block-border;
       margin-left: 5px;
+      box-sizing: border-box;
     }
   }
 }
