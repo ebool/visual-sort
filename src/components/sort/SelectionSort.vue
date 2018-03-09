@@ -30,8 +30,8 @@
 
 <script>
 import {makeArray, shuffle, changeItem} from '@/assets/js/utils.js'
-import ColorExplains from '../commons/ColorExplains.vue';
-import ControlBox from '../commons/ControlBox.vue';
+import ColorExplains from './commons/ColorExplains.vue';
+import ControlBox from './commons/ControlBox.vue';
 
 export default {
   components: {
