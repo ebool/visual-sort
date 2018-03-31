@@ -119,35 +119,4 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-@import 'src/assets/css/color.scss';
-
-.selection-sort {
-  .container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    .flip-list-move {
-      transition: transform .3s;
-    }
-
-    li {
-      list-style: none;
-    }
-    .focused {
-      background-color: $focused !important;
-    }
-    .sorted {
-      background-color: $sorted;
-    }
-    
-
-    .item {
-      width: 8px;
-      border: 1px solid $block-border;
-      margin-left: 5px;
-      box-sizing: border-box;
-    }
-  }
-}
 </style>
