@@ -15,6 +15,10 @@ export default new Router({
       component: index,
       children: [
         {
+          path: '',
+          component: BubbleSort
+        },
+        {
           path: 'bubble',
           component: BubbleSort
         },

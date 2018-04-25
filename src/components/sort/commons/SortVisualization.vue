@@ -1,10 +1,10 @@
 <template>
-  <transition-group name="flip-list" tag="ul" class="viz-box">
+  <transition-group tag="ul" class="viz-box">
     <li 
     class="item" 
     v-for="(item, i) in list" :key="item"
     :class="{focused : isFocused(i), sorted : isSorted(i), selected : isSelected(i)}"
-    :style="{height: (item + 1) * 6 + 'px'}">
+    :style="{height: (item + 1) * 10 + 'px'}">
     </li>
   </transition-group>
 </template>
@@ -13,7 +13,6 @@
 export default {
   props: {
     list: {
-      type: Array
     },
     isSorted: {
       type: Function,
@@ -44,25 +43,24 @@ export default {
   justify-content: center;
   margin: 30px 0px;
 
-  .flip-list-move {
-    transition: transform .3s;
-  }
-
   li {
     list-style: none;
   }
   .focused {
     background-color: $focused;
+    border: 0px !important;
   }
   .sorted {
     background-color: $sorted;
+    border: 0px !important;
   }
   .selected {
     border: 2px solid $selected !important;
   }
 
   .item {
-    width: 10px;
+    transition: background-color .3s, transform .3s;
+    width: 15px;
     border: 1px solid $block-border;
     margin-left: 5px;
   }

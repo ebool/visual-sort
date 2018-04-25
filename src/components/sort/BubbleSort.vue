@@ -1,112 +1,123 @@
 <template>
   <div class="bubble-sort">
     <sort-visualization
-    :list="items"
-    :isSorted="(i) => {return i > items.length - sortedIndex - 1}"
-    :isFocused="(i) => {return i === index}"
+    :list="getList"
+    :isSorted="(i) => {return i > getList.length - currentStep.sorted - 1}"
+    :isFocused="(i) => {return i === currentStep.focused || i === currentStep.focused + 1}"
     ></sort-visualization>
-    <color-explains
-    :focused="true"
-    :sorted="true"
-    ></color-explains>
+    <div class="explain">{{explains[`${currentStep.type}`]}}</div>
+    <progress-bar :max="scenarioLength - 1" @input="changeStep" :step="step"></progress-bar>
     <control-box
+    :back="back"
+    :next="next"
+    :run="run"
+    :stop="clearAutoTimer"
+    :shuffle="reset"
     :isRunning="isRunning"
-    :next="sort"
-    :auto="isRunning ? stopAutoSort : runAutoSort"
-    :shuffle="shuffle"
+    :isEnd="currentStep.type === '3'"
     ></control-box>
-    <div class="option-box">
-      <h4>options</h4>
-      개수 : <input type="tel" v-model="count" maxlength="2"><br>
-    </div>
   </div>
 </template>
 
 <script>
-import {makeArray, shuffle, changeItem} from '@/assets/js/utils.js';
+import {makeArray, shuffle, copy} from '@/assets/js/utils.js';
 import SortVisualization from './commons/SortVisualization.vue';
-import ColorExplains from './commons/ColorExplains.vue';
-import ControlBox from './commons/ControlBox.vue';
+import ProgressBar from './commons/ProgressBar.vue';
+import ControlBox from './commons/ControlBox2.vue';
 
 export default {
   components: {
-    ColorExplains,
-    ControlBox,
-    SortVisualization
+    SortVisualization,
+    ProgressBar,
+    ControlBox
   },
   data () {
     return {
-      items: [],
-      index: 0,
-      sortedIndex: 0,
-      count: 20,
-      isRunning: false,
+      scenario: '',
+      currentStep: '',
+      step: 0,
+      explains: {
+        '0': '선택된 두 요소를 비교.',
+        '1': '앞 요소가 뒷 요소보다 크므로 자리 변경.',
+        '2': '뒷 요소가 앞 요소보다 크므로 자리 유지.',
+        '3': '정렬 완료!'
+      },
       autoTimer: null
     }
   },
   watch: {
-    count () {
-      this.reset();
-      if (!this.count) return;
-      this.items = shuffle(makeArray(this.count));
+    step (step) {
+      if (step >= this.scenarioLength) {
+        this.clearAutoTimer();
+        return;
+      }
+      if (step < 0) step = 0;
+      this.currentStep = this.scenario[`${step}`];
     }
   },
   computed: {
-    getButtonName () {
-      return this.isRunning ? 'stop!!' : 'auto sort';
-    },
-    isEnd () {
-      return this.sortedIndex >= this.items.length - 1;
-    }
+    getList () { return this.currentStep ? this.currentStep.list : []; },
+    scenarioLength () { return Object.keys(this.scenario).length; },
+    isRunning () { return this.autoTimer ? true : false; }
   },
   methods: {
-    reset () {
-      this.clearAutoTimer();
-      this.sortedIndex = 0;
-      this.index = 0;
-      this.isRunning = false;
+    changeStep (step) {
+      if (step >= this.scenario.length - 1) return;
+      this.step = step;
     },
-    sort () {
-      if (this.items[this.index] > this.items[this.index + 1]) {
-        this.items = changeItem(this.items, this.index, this.index + 1);
-      }
-      if (this.index >= this.items.length - this.sortedIndex - 2) {
-        this.index = 0;
-        this.sortedIndex++;
-        if (this.isEnd) this.reset();
-        return;
-      }
-      this.index++;
-    },
-    runAutoSort () {
-      this.isRunning = true;
-      this.autoTimer = this.setAutoTimer();
-    },
-    stopAutoSort () {
-      this.isRunning = false;
-      this.clearAutoTimer();
-    },
+    next () { this.changeStep(this.step + 1); },
+    back () { this.changeStep(this.step - 1); },
+    run () { this.autoTimer = this.setAutoTimer(); },
     setAutoTimer () {
+      if (this.isRunning) this.clearAutoTimer();
       let vue = this;
       return setInterval(function () {
-        vue.sort();
-      }, 300);
+        vue.next();
+      }, 1000);
     },
     clearAutoTimer () {
       clearInterval(this.autoTimer);
+      this.autoTimer = null;
     },
-    shuffle () {
-      if (this.isRunning) {
-        return;
+    makeList (cnt) { return shuffle(makeArray(cnt)); },
+    setScenario (list) {
+      let result = {};
+      let sorted = 0;
+      let index = 0;
+      for (let j = 0; j < list.length; j++) {
+        for (let i = 0; i < list.length - 1 - sorted; i++) {
+          result[`${index++}`] = this.setPartialScenario(list, i, j, '0')
+          if (list[i] > list[i + 1]) {
+            let temp = list[i];
+            list[i] = list[i + 1];
+            list[i + 1] = temp;
+            result[`${index++}`] = this.setPartialScenario(list, i, j, '1')
+          } else result[`${index++}`] = this.setPartialScenario(list, i, j, '2')
+        }
+        sorted++;
       }
-      this.reset();
-      this.items = shuffle(this.items);
+      result[`${index}`] = this.setPartialScenario(list, -2, list.length, '3')
+      return result;
+    },
+    setPartialScenario (list, focused, sorted, type) { return { list: list.slice(), focused, sorted, type } },
+    reset () {
+      this.scenario = this.setScenario(this.makeList(15));
+      this.step = 0;
+      this.currentStep = this.scenario['0'];
     }
   },
   mounted () {
-    this.items = shuffle(makeArray(this.count));
+    this.reset();
+    console.log(this.scenario);
   }
 }
 </script>
-<style scoped lang="scss">
+
+<style lang="scss" scoped>
+.bubble-sort {
+  .explain {
+    text-align: center;
+    font-size: 1.25em;
+  }
+}
 </style>
