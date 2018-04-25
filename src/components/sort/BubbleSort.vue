@@ -12,7 +12,7 @@
     :next="next"
     :run="run"
     :stop="clearAutoTimer"
-    :shuffle="reset"
+    :shuffle="setInit"
     :isRunning="isRunning"
     :isEnd="currentStep.type === '3'"
     ></control-box>
@@ -100,14 +100,14 @@ export default {
       return result;
     },
     setPartialScenario (list, focused, sorted, type) { return { list: list.slice(), focused, sorted, type } },
-    reset () {
+    setInit () {
       this.scenario = this.setScenario(this.makeList(15));
       this.step = 0;
       this.currentStep = this.scenario['0'];
     }
   },
   mounted () {
-    this.reset();
+    this.setInit();
     console.log(this.scenario);
   }
 }
