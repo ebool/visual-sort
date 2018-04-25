@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import {makeArray, shuffle, copy} from '@/assets/js/utils.js';
+import {makeArray, shuffle} from '@/assets/js/utils.js';
 import SortVisualization from './commons/SortVisualization.vue';
 import ProgressBar from './commons/ProgressBar.vue';
 import ControlBox from './commons/ControlBox2.vue';
@@ -80,7 +80,7 @@ export default {
       this.autoTimer = null;
     },
     makeList (cnt) { return shuffle(makeArray(cnt)); },
-    setScenario (list) {
+    makeScenario (list) {
       let result = {};
       let sorted = 0;
       let index = 0;
@@ -101,7 +101,7 @@ export default {
     },
     setPartialScenario (list, focused, sorted, type) { return { list: list.slice(), focused, sorted, type } },
     setInit () {
-      this.scenario = this.setScenario(this.makeList(15));
+      this.scenario = this.makeScenario(this.makeList(15));
       this.step = 0;
       this.currentStep = this.scenario['0'];
     }
