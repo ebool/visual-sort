@@ -23,7 +23,7 @@
 import {makeArray, shuffle} from '@/assets/js/utils.js';
 import SortVisualization from './commons/SortVisualization.vue';
 import ProgressBar from './commons/ProgressBar.vue';
-import ControlBox from './commons/ControlBox2.vue';
+import ControlBox from './commons/ControlBox.vue';
 
 export default {
   components: {
@@ -47,12 +47,9 @@ export default {
   },
   watch: {
     step (step) {
-      if (step >= this.scenarioLength) {
-        this.clearAutoTimer();
-        return;
-      }
       if (step < 0) step = 0;
       this.currentStep = this.scenario[`${step}`];
+      if (step >= this.scenarioLength - 1) this.clearAutoTimer();
     }
   },
   computed: {
@@ -62,7 +59,7 @@ export default {
   },
   methods: {
     changeStep (step) {
-      if (step >= this.scenario.length - 1) return;
+      if (step > this.scenarioLength) return;
       this.step = step;
     },
     next () { this.changeStep(this.step + 1); },
@@ -108,7 +105,6 @@ export default {
   },
   mounted () {
     this.setInit();
-    console.log(this.scenario);
   }
 }
 </script>

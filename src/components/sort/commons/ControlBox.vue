@@ -1,31 +1,22 @@
 <template>
   <v-layout class="my-3" justify-center>
-    <v-btn :disabled="isRunning" @click="next()">한 단계씩</v-btn>
-    <v-btn @click="auto()">{{getButtonName}}</v-btn>
-    <v-btn :disabled="isRunning" @click="shuffle()">뒤섞기</v-btn>
+    <v-btn flat icon color="white" :disabled="isRunning" @click="back()"><v-icon>fast_rewind</v-icon></v-btn>
+    <v-btn flat icon color="white" @click="stop()" v-if="isRunning"><v-icon>pause</v-icon></v-btn>
+    <v-btn flat icon color="white" @click="run()" v-else><v-icon>play_arrow</v-icon></v-btn>
+    <v-btn flat icon color="white" :disabled="isRunning" @click="next()"><v-icon>fast_forward</v-icon></v-btn>
+    <coach-mark :isShow="isEnd" @click.native="shuffle()" repeat="infinite">
+      <v-btn flat icon color="white" :disabled="isRunning" slot="target"><v-icon>shuffle</v-icon></v-btn>
+    </coach-mark>
   </v-layout>
 </template>
 
 <script>
+import CoachMark from 'commons/CoachMark.vue'
+
 export default {
-  props: {
-    isRunning: {
-      type: Boolean
-    },
-    next: {
-      type: Function
-    },
-    auto: {
-      type: Function
-    },
-    shuffle: {
-      type: Function
-    }
-  },
-  computed: {
-    getButtonName () {
-      return this.isRunning ? '멈추기' : '자동정렬';
-    }
+  props: ['back', 'next', 'run', 'stop', 'shuffle', 'isRunning', 'isEnd'],
+  components: {
+    CoachMark
   }
 }
 </script>
