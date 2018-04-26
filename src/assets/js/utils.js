@@ -7,7 +7,7 @@ export function makeArray (cnt) {
 }
 
 export function changeItem (a, x, y) {
-  let newArray = copy(a);
+  let newArray = a.slice();
   let temp = newArray[x];
   newArray[x] = newArray[y];
   newArray[y] = temp;
@@ -15,7 +15,7 @@ export function changeItem (a, x, y) {
 }
 
 export function shuffle (a) {
-  let newArray = copy(a);
+  let newArray = a.slice();
   let result = new Array();
   let length = a.length;
   while (length) {
@@ -29,12 +29,4 @@ export function shuffle (a) {
 
 export function getRandomInt (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
-}
-
-function copy (a) {
-  let result = [];
-  for (let i = 0; i < a.length; i++) {
-    result.push(a[i]);
-  }
-  return result;
 }

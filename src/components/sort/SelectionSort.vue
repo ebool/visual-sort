@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import {makeArray, shuffle} from '@/assets/js/utils.js';
+import {makeArray, shuffle, changeItem} from '@/assets/js/utils.js';
 import SortVisualization from './commons/SortVisualization.vue';
 import ProgressBar from './commons/ProgressBar.vue';
 import ControlBox from './commons/ControlBox.vue';
@@ -91,9 +91,7 @@ export default {
             result[`${index++}`] = this.setPartialScenario(list, sorted, focused, selected, '2');
           }
         }
-        let temp = list[sorted];
-        list[sorted] = list[selected];
-        list[selected] = temp;
+        list = changeItem(list, sorted, selected);
         result[`${index++}`] = this.setPartialScenario(list, sorted + 1, focused, selected, '3');
       }
       result[`${index++}`] = this.setPartialScenario(list, list.length, -1, -1, '4');
