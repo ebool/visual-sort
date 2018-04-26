@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     setInit () {
-      this.scenario = this.makeScenario(this.makeList(5));
+      this.scenario = this.makeScenario(this.makeList(15));
       this.step = 0;
       this.currentStep = this.scenario['0'];
     },
