@@ -11,7 +11,7 @@
     :back="back"
     :next="next"
     :run="run"
-    :stop="clearAutoTimer"
+    :stop="$store.commit('clearTimer')"
     :shuffle="setInit"
     :isRunning="isRunning"
     :isEnd="currentStep.type === '3'"
@@ -40,14 +40,13 @@ export default {
         '1': '앞 요소가 뒷 요소보다 크므로 자리 변경.',
         '2': '뒷 요소가 앞 요소보다 크므로 자리 유지.',
         '3': '정렬 완료!'
-      },
-      autoTimer: null // auto timer 지우면 됨
+      }
     }
   },
   watch: {
     step (step) {
       this.$store.commit('setCurrentStep');
-      if (step >= this.scenarioLength - 1) this.clearAutoTimer();
+      if (step >= this.scenarioLength - 1) this.$store.commit('clearTimer');
     }
   },
   computed: {
@@ -56,7 +55,8 @@ export default {
     isRunning () { return this.autoTimer ? true : false; },
     scenario () { return this.$store.state.scenario; },
     currentStep () { return this.$store.state.currentStep; },
-    step () { return this.$store.state.step; }
+    step () { return this.$store.state.step; },
+    autoTimer () { return this.$store.state.timer }
   },
   methods: {
     changeStep (step) {
@@ -65,18 +65,7 @@ export default {
     },
     next () { this.changeStep(this.step + 1); },
     back () { this.changeStep(this.step - 1); },
-    run () { this.autoTimer = this.setAutoTimer(); },
-    setAutoTimer () {
-      if (this.isRunning) this.clearAutoTimer();
-      let vue = this;
-      return setInterval(function () {
-        vue.next();
-      }, 1000);
-    },
-    clearAutoTimer () {
-      clearInterval(this.autoTimer);
-      this.autoTimer = null;
-    },
+    run () { this.$store.dispatch('setAutoTimer', this.next); },
     makeList (cnt) { return shuffle(makeArray(cnt)); },
     makeScenario (list) {
       let result = {};

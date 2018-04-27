@@ -9,7 +9,7 @@ export default new Vuex.Store({
     scenario: {},
     currentStep: '',
     step: 0,
-    autoTimer: null
+    timer: null
   },
   mutations: {
     setScenario (state, scenario) {
@@ -22,12 +22,20 @@ export default new Vuex.Store({
       if (step < 0) step = 0;
       state.step = step;
     },
-    setAutoTimer (state, timer) {
-      state.autoTimer = timer
+    setTimer (state, timer) {
+      state.timer = timer
     },
-    clearAutoTimer (state) {
+    clearTimer (state) {
       clearInterval(state.autoTimer);
       state.autoTimer = null
+    }
+  },
+  actions: {
+    setAutoTimer ({state, commit}, next) {
+      if (state.timer) commit('clearTimer')
+      commit('setTimer', setInterval(function () {
+        next();
+      }, 1000));
     }
   }
 })
