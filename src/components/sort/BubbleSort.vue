@@ -24,8 +24,10 @@ import {makeArray, shuffle, changeItem} from '@/assets/js/utils.js';
 import SortVisualization from './commons/SortVisualization.vue';
 import ProgressBar from './commons/ProgressBar.vue';
 import ControlBox from './commons/ControlBox.vue';
+import store from '@/store/sortStore.js';
 
 export default {
+  store,
   components: {
     SortVisualization,
     ProgressBar,
@@ -33,34 +35,33 @@ export default {
   },
   data () {
     return {
-      scenario: '',
-      currentStep: '',
-      step: 0,
       explains: {
         '0': '선택된 두 요소를 비교.',
         '1': '앞 요소가 뒷 요소보다 크므로 자리 변경.',
         '2': '뒷 요소가 앞 요소보다 크므로 자리 유지.',
         '3': '정렬 완료!'
       },
-      autoTimer: null
+      autoTimer: null // auto timer 지우면 됨
     }
   },
   watch: {
     step (step) {
-      if (step < 0) step = 0;
-      this.currentStep = this.scenario[`${step}`];
+      this.$store.commit('setCurrentStep');
       if (step >= this.scenarioLength - 1) this.clearAutoTimer();
     }
   },
   computed: {
     getList () { return this.currentStep ? this.currentStep.list : []; },
     scenarioLength () { return Object.keys(this.scenario).length; },
-    isRunning () { return this.autoTimer ? true : false; }
+    isRunning () { return this.autoTimer ? true : false; },
+    scenario () { return this.$store.state.scenario; },
+    currentStep () { return this.$store.state.currentStep; },
+    step () { return this.$store.state.step; }
   },
   methods: {
     changeStep (step) {
       if (step > this.scenarioLength) return;
-      this.step = step;
+      this.$store.commit('setStep', step);
     },
     next () { this.changeStep(this.step + 1); },
     back () { this.changeStep(this.step - 1); },
@@ -96,9 +97,9 @@ export default {
     },
     setPartialScenario (list, focused, sorted, type) { return { list: list.slice(), focused, sorted, type } },
     setInit () {
-      this.scenario = this.makeScenario(this.makeList(15));
-      this.step = 0;
-      this.currentStep = this.scenario['0'];
+      this.$store.commit('setScenario', this.makeScenario(this.makeList(15)));
+      this.$store.commit('setStep', 0);
+      this.$store.commit('setCurrentStep');
     }
   },
   mounted () {
