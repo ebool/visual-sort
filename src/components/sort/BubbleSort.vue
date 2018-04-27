@@ -59,13 +59,11 @@ export default {
     autoTimer () { return this.$store.state.timer }
   },
   methods: {
-    changeStep (step) {
-      if (step > this.scenarioLength) return;
-      this.$store.commit('setStep', step);
+    setInit () {
+      this.$store.commit('setScenario', this.makeScenario(this.makeList(15)));
+      this.$store.commit('setStep', 0);
+      this.$store.commit('setCurrentStep');
     },
-    next () { this.changeStep(this.step + 1); },
-    back () { this.changeStep(this.step - 1); },
-    run () { this.$store.dispatch('setAutoTimer', this.next); },
     makeList (cnt) { return shuffle(makeArray(cnt)); },
     makeScenario (list) {
       let result = {};
@@ -85,11 +83,13 @@ export default {
       return result;
     },
     setPartialScenario (list, focused, sorted, type) { return { list: list.slice(), focused, sorted, type } },
-    setInit () {
-      this.$store.commit('setScenario', this.makeScenario(this.makeList(15)));
-      this.$store.commit('setStep', 0);
-      this.$store.commit('setCurrentStep');
-    }
+    changeStep (step) {
+      if (step > this.scenarioLength) return;
+      this.$store.commit('setStep', step);
+    },
+    next () { this.changeStep(this.step + 1); },
+    back () { this.changeStep(this.step - 1); },
+    run () { this.$store.dispatch('setAutoTimer', this.next); }
   },
   mounted () {
     this.setInit();
