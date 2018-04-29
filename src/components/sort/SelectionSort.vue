@@ -1,21 +1,14 @@
 <template>
-  <div class="selection-sort">
+  <div class="selection-sort" v-if="isShow">
     <sort-visualization
-    :list="getList"
     :isSorted="(i) => {return i < currentStep.sorted}"
     :isSelected="(i) => {return i === currentStep.selected}"
     :isFocused="(i) => {return i === currentStep.focused}"
-    >
-    </sort-visualization>
-    <div class="explain">{{explains[`${currentStep.type}`]}}</div>
-    <progress-bar :max="scenarioLength - 1" @input="changeStep" :step="step"></progress-bar>
+    ></sort-visualization>
+    <explain-box :explains="explains"></explain-box>
+    <progress-bar></progress-bar>
     <control-box
-    :back="back"
-    :next="next"
-    :run="run"
-    :stop="$store.commit('clearTimer')"
     :shuffle="setInit"
-    :isRunning="isRunning"
     :isEnd="currentStep.type === '4'"
     ></control-box>
   </div>
@@ -24,6 +17,7 @@
 <script>
 import {makeArray, shuffle, changeItem} from '@/assets/js/utils.js';
 import SortVisualization from './commons/SortVisualization.vue';
+import ExplainBox from './commons/ExplainBox.vue';
 import ProgressBar from './commons/ProgressBar.vue';
 import ControlBox from './commons/ControlBox.vue';
 import store from '@/store/sortStore.js';
@@ -32,6 +26,7 @@ export default {
   store,
   components: {
     SortVisualization,
+    ExplainBox,
     ProgressBar,
     ControlBox
   },
@@ -43,29 +38,25 @@ export default {
         '2': '선택된 요소보다 크므로 무시.',
         '3': '선택된 요소를 정렬대상 앞으로 변경.',
         '4': '정렬 완료!'
-      }
+      },
+      isShow: false
     }
   },
   watch: {
     step (step) {
-      this.$store.commit('setCurrentStep');
       if (step >= this.scenarioLength - 1) this.$store.commit('clearTimer');
     }
   },
   computed: {
-    getList () { return this.currentStep ? this.currentStep.list : []; },
-    scenarioLength () { return Object.keys(this.scenario).length; },
-    isRunning () { return this.autoTimer ? true : false; },
+    scenarioLength () { return this.$store.getters.scenarioLength; },
     scenario () { return this.$store.state.scenario; },
-    currentStep () { return this.$store.state.currentStep; },
+    currentStep () { return this.$store.getters.currentStep; },
     step () { return this.$store.state.step; },
-    autoTimer () { return this.$store.state.timer }
   },
   methods: {
     setInit () {
       this.$store.commit('setScenario', this.makeScenario(this.makeList(15)));
       this.$store.commit('setStep', 0);
-      this.$store.commit('setCurrentStep');
     },
     makeList (cnt) { return shuffle(makeArray(cnt)); },
     makeScenario (list) {
@@ -94,24 +85,12 @@ export default {
       return result;
     },
     setPartialScenario (list, sorted, focused, selected, type) { return { list: list.slice(), focused, sorted, selected, type } },
-    changeStep (step) {
-      if (step > this.scenarioLength) return;
-      this.$store.commit('setStep', step);
-    },
-    next () { this.changeStep(this.step + 1); },
-    back () { this.changeStep(this.step - 1); },
-    run () { this.$store.dispatch('setAutoTimer', this.next); }
   },
   mounted () {
     this.setInit();
+    this.isShow = true;
   }
 }
 </script>
 <style scoped lang="scss">
-.selection-sort {
-  .explain {
-    text-align: center;
-    font-size: 1.25em;
-  }
-}
 </style>

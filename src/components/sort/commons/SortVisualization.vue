@@ -12,8 +12,6 @@
 <script>
 export default {
   props: {
-    list: {
-    },
     isSorted: {
       type: Function,
       default: () => {return false}
@@ -27,10 +25,8 @@ export default {
       default: () => {return false}
     }
   },
-  methods: {
-    default () {
-      return false;
-    }
+  computed: {
+    list () { return this.$store.getters.currentStep.list; }
   }
 }
 </script>

@@ -7,18 +7,23 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     scenario: {},
-    currentStep: '',
     step: 0,
     timer: null
+  },
+  getters: {
+    scenarioLength (state) {
+      return Object.keys(state.scenario).length;
+    },
+    currentStep (state) {
+      return state.scenario[`${state.step}`]// 하던중
+    }
   },
   mutations: {
     setScenario (state, scenario) {
       state.scenario = scenario;
     },
-    setCurrentStep (state) {
-      state.currentStep = state.scenario[state.step];
-    },
     setStep (state, step) {
+      if (step > Object.keys(state.scenario).length) return;
       if (step < 0) step = 0;
       state.step = step;
     },
@@ -26,15 +31,15 @@ export default new Vuex.Store({
       state.timer = timer
     },
     clearTimer (state) {
-      clearInterval(state.autoTimer);
-      state.autoTimer = null
+      clearInterval(state.timer);
+      state.timer = null
     }
   },
   actions: {
     setAutoTimer ({state, commit}, next) {
       if (state.timer) commit('clearTimer')
       commit('setTimer', setInterval(function () {
-        next();
+        commit('setStep', state.step + 1);
       }, 1000));
     }
   }

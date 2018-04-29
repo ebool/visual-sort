@@ -11,10 +11,21 @@
 
 <script>
 export default {
-  props: ['max', 'step'],
   methods: {
-    chageStep (value) {
-      this.$emit('input', value);
+    chageStep (step) {
+      if (step > this.scenarioLength) return;
+      this.$store.commit('setStep', step);
+    }
+  },
+  computed: {
+    step () {
+      return this.$store.state.step;
+    },
+    max () {
+      return this.scenarioLength - 1;
+    },
+    scenarioLength () {
+      return this.$store.getters.scenarioLength;
     }
   }
 }

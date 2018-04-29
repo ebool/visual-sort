@@ -14,9 +14,36 @@
 import CoachMark from 'commons/CoachMark.vue'
 
 export default {
-  props: ['back', 'next', 'run', 'stop', 'shuffle', 'isRunning', 'isEnd'],
+  props: {
+    shuffle: {
+      default: () => { return; }
+    },
+    isEnd: {}
+  },
   components: {
     CoachMark
+  },
+  computed: {
+    step () {
+      return this.$store.state.step;
+    },
+    isRunning () {
+      return this.$store.state.timer ? true : false;
+    }
+  },
+  methods: {
+    stop () {
+      this.$store.commit('clearTimer');
+    },
+    run () {
+      this.$store.dispatch('setAutoTimer');
+    },
+    next () {
+      this.$store.commit('setStep', this.step + 1)
+    },
+    back () {
+      this.$store.commit('setStep', this.step - 1)
+    }
   }
 }
 </script>
