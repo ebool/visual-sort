@@ -1,7 +1,7 @@
 <template>
   <div class="coach-container">
     <slot name="target"></slot>
-    <div class="coach" v-if="isShow" :style="getRepeatCnt"></div>
+    <div class="coach" v-if="isShow" :style="getRepeatCnt" @click="func"></div>
   </div>
 </template>
 
@@ -15,6 +15,9 @@ export default {
     repeat: {
       default: '9',
       type: String
+    },
+    func: {
+      default: () => { return; }
     }
   },
   computed: {

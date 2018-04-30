@@ -4,8 +4,8 @@
     <v-btn flat icon color="white" @click="stop()" v-if="isRunning"><v-icon>pause</v-icon></v-btn>
     <v-btn flat icon color="white" @click="run()" v-else><v-icon>play_arrow</v-icon></v-btn>
     <v-btn flat icon color="white" :disabled="isRunning" @click="next()"><v-icon>fast_forward</v-icon></v-btn>
-    <coach-mark :isShow="isEnd" @click.native="shuffle()" repeat="infinite">
-      <v-btn flat icon color="white" :disabled="isRunning" slot="target"><v-icon>shuffle</v-icon></v-btn>
+    <coach-mark :isShow="isEnd" repeat="infinite" :func="shuffle">
+      <v-btn flat icon color="white" :disabled="isRunning" slot="target" @click="shuffle"><v-icon>shuffle</v-icon></v-btn>
     </coach-mark>
   </v-layout>
 </template>
