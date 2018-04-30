@@ -55,6 +55,7 @@ export default {
     setInit () {
       this.$store.commit('setScenario', this.makeScenario(this.makeList(15)));
       this.$store.commit('setStep', 0);
+      this.$store.commit('clearTimer');
     },
     makeList (cnt) { return shuffle(makeArray(cnt)); },
     makeScenario (list) {
