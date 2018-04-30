@@ -23,7 +23,7 @@ export default new Vuex.Store({
       state.scenario = scenario;
     },
     setStep (state, step) {
-      if (step > Object.keys(state.scenario).length) return;
+      if (step >= Object.keys(state.scenario).length - 1) return;
       if (step < 0) step = 0;
       state.step = step;
     },
