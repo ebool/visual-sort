@@ -38,6 +38,7 @@ export default {
   align-items: baseline;
   justify-content: center;
   margin: 30px 0px;
+  min-height: 150px;
 
   li {
     list-style: none;

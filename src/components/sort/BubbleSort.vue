@@ -1,5 +1,6 @@
 <template>
   <div class="bubble-sort" v-if="isShow">
+    <options-box></options-box>
     <sort-visualization
     :isSorted="(i) => {return i > currentStep.list.length - currentStep.sorted - 1}"
     :isFocused="(i) => {return i === currentStep.focused || i === currentStep.focused + 1}"
@@ -14,7 +15,8 @@
 </template>
 
 <script>
-import {makeArray, shuffle, changeItem} from '@/assets/js/utils.js';
+import {changeItem} from '@/assets/js/utils.js';
+import OptionsBox from './commons/OptionsBox.vue';
 import SortVisualization from './commons/SortVisualization.vue';
 import ExplainBox from './commons/ExplainBox.vue';
 import ProgressBar from './commons/ProgressBar.vue';
@@ -24,6 +26,7 @@ import store from '@/store/sortStore.js';
 export default {
   store,
   components: {
+    OptionsBox,
     SortVisualization,
     ExplainBox,
     ProgressBar,
@@ -53,11 +56,8 @@ export default {
   },
   methods: {
     setInit () {
-      this.$store.commit('setScenario', this.makeScenario(this.makeList(15)));
-      this.$store.commit('setStep', 0);
-      this.$store.commit('clearTimer');
+      this.$store.dispatch('init');
     },
-    makeList (cnt) { return shuffle(makeArray(cnt)); },
     makeScenario (list) {
       let result = {};
       let sorted = 0;
@@ -78,7 +78,8 @@ export default {
     setPartialScenario (list, focused, sorted, type) { return { list: list.slice(), focused, sorted, type } },
   },
   mounted () {
-    this.setInit();
+    this.$store.commit('setMakeScenario', this.makeScenario);
+    this.setInit()
     this.isShow = true;
   }
 }

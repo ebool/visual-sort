@@ -2,7 +2,7 @@
   <v-app dark class="v-app">
     <action-bar></action-bar>
     <navigation-drawer></navigation-drawer>
-    <v-content>
+    <v-content class="mt16">
       <router-view></router-view>
     </v-content>
   </v-app>
