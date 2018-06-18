@@ -1,6 +1,6 @@
 <template>
   <div class="explain-box">
-    <div class="explain">{{explains[`${currentStep.type}`]}}</div>
+    <div class="explain" v-html="explains[`${currentStep.type}`]"/>
   </div>
 </template>
 
