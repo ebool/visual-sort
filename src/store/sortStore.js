@@ -9,7 +9,7 @@ export default new Vuex.Store({
     scenario: {},
     step: 0,
     timer: null,
-    elementCnt: 5,
+    elementCnt: 10,
     speed: 1000,
     makeScenario: ''
   },
