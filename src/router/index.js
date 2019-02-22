@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import BubbleSort from '@/components/sort/BubbleSort'
 import SelectionSort from '@/components/sort/SelectionSort'
 import InsertionSort from '@/components/sort/InsertionSort'
+import MergeSort from '@/components/sort/MergeSort'
 import index from '@/components/index'
 
 Vue.use(Router)
@@ -30,6 +31,10 @@ export default new Router({
         {
           path: 'insertion',
           component: InsertionSort
+        },
+        {
+          path: 'merge',
+          component: MergeSort
         }
       ]
     }

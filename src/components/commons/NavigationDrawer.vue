@@ -26,7 +26,8 @@ export default {
       list : [
         {name: '버블 정렬', path: 'bubble'},
         {name: '선택 정렬', path: 'selection'},
-        {name: '삽입 정렬', path: 'insertion'}
+        {name: '삽입 정렬', path: 'insertion'},
+        {name: '병합 정렬', path: 'merge'}
       ]
     }
   },
