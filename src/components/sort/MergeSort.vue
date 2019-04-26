@@ -1,17 +1,21 @@
 <template>
-  <div>
-    <div>start : {{startArray}}</div>
-    <div>result : {{resultArray}}</div>
-    <button @click="sort">sort</button>
+  <div class="merge-sort-cont">
+    <options-box></options-box>
+    <!--<div>start : {{startArray}}</div>-->
+    <!--<div>result : {{resultArray}}</div>-->
+    <!--<button @click="sort">sort</button>-->
   </div>
 </template>
 
 <script>
-import ExplainBox from './commons/ExplainBox.vue';
+import OptionsBox from './commons/OptionsBox.vue';
 import store from '@/store/sortStore.js';
 
 export default {
   store,
+  components: {
+    OptionsBox
+  },
   data () {
     return {
       startArray: [4, 3, 5, 8, 6, 11, 32, 112, 23, 22, 66, 79, 23, 54, 44, 21, 3, 56, 79, 90, 67, 455, 65],
@@ -19,8 +23,11 @@ export default {
     }
   },
   methods: {
-    makeSenario (array) {
+    makeScenario (array) {
 
+    },
+    sort () {
+      console.log('hello sort')
     },
     divide (array) {
       let center = array.length / 2;
@@ -49,7 +56,6 @@ export default {
     }
   },
   mounted () {
-    this.makeSenario(this.startArray);
   }
 }
 </script>
