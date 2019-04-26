@@ -17,11 +17,11 @@
 
 <script>
 import {changeItem} from 'src/assets/js/utils.js';
-import OptionsBox from 'src/components/sort/commons/OptionsBox.vue';
-import SortVisualization from 'src/components/sort/commons/SortVisualization.vue';
-import ExplainBox from 'src/components/sort/commons/ExplainBox.vue';
-import ProgressBar from 'src/components/sort/commons/ProgressBar.vue';
-import ControlBox from 'src/components/sort/commons/ControlBox.vue';
+import OptionsBox from 'src/atom/OptionsBox.vue';
+import SortVisualization from 'src/atom/SortVisualization.vue';
+import ExplainBox from 'src/atom/ExplainBox.vue';
+import ProgressBar from 'src/atom/ProgressBar.vue';
+import ControlBox from 'src/atom/ControlBox.vue';
 
 export default {
   components: {
