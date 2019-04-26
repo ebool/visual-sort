@@ -1,10 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import BubbleSort from 'src/pages/bubble'
-import SelectionSort from 'src/pages/selection'
-import InsertionSort from 'src/pages/insertion'
-import MergeSort from 'src/pages/merge'
-import index from 'src/pages/index'
+import bubble from 'src/pages/bubble'
+import selection from 'src/pages/selection'
+import insertion from 'src/pages/insertion'
+import merge from 'src/pages/merge'
 
 Vue.use(Router)
 
@@ -13,30 +12,23 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'index',
-      component: index,
-      children: [
-        {
-          path: '',
-          component: BubbleSort
-        },
-        {
-          path: 'bubble',
-          component: BubbleSort
-        },
-        {
-          path: 'selection',
-          component: SelectionSort
-        },
-        {
-          path: 'insertion',
-          component: InsertionSort
-        },
-        {
-          path: 'merge',
-          component: MergeSort
-        }
-      ]
+      component: bubble,
+    },
+    {
+      path: '/bubble',
+      component: bubble
+    },
+    {
+      path: '/selection',
+      component: selection
+    },
+    {
+      path: '/insertion',
+      component: insertion
+    },
+    {
+      path: '/merge',
+      component: merge
     }
   ]
 })
