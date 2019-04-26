@@ -22,6 +22,7 @@ export default {
 @import "src/assets/css/reset.scss";
 @import "src/assets/css/utils.scss";
 @import '~node/vuetify/dist/vuetify.min.css';
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
