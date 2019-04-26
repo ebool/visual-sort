@@ -21,5 +21,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~node/vuetify/dist/vuetify.min.css';
 </style>
