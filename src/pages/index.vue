@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import NavigationDrawer from 'src/components/commons/NavigationDrawer.vue';
+import NavigationDrawer from 'src/atom/NavigationDrawer.vue';
 
 export default {
   components: {

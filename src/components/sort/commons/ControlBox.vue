@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import CoachMark from 'commons/CoachMark.vue'
+import CoachMark from 'src/atom/CoachMark.vue'
 
 export default {
   props: {
