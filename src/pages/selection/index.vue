@@ -16,12 +16,12 @@
 </template>
 
 <script>
-import {changeItem} from '@/assets/js/utils.js';
-import OptionsBox from './commons/OptionsBox.vue';
-import SortVisualization from './commons/SortVisualization.vue';
-import ExplainBox from './commons/ExplainBox.vue';
-import ProgressBar from './commons/ProgressBar.vue';
-import ControlBox from './commons/ControlBox.vue';
+import {changeItem} from 'src/assets/js/utils.js';
+import OptionsBox from 'src/components/sort/commons/OptionsBox.vue';
+import SortVisualization from 'src/components/sort/commons/SortVisualization.vue';
+import ExplainBox from 'src/components/sort/commons/ExplainBox.vue';
+import ProgressBar from 'src/components/sort/commons/ProgressBar.vue';
+import ControlBox from 'src/components/sort/commons/ControlBox.vue';
 
 export default {
   components: {

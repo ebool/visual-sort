@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import BubbleSort from '@/components/sort/BubbleSort'
-import SelectionSort from '@/components/sort/SelectionSort'
-import InsertionSort from '@/components/sort/InsertionSort'
-import MergeSort from '@/components/sort/MergeSort'
-import index from '@/components/index'
+import BubbleSort from 'src/pages/bubble'
+import SelectionSort from 'src/pages/selection'
+import InsertionSort from 'src/pages/insertion'
+import MergeSort from 'src/pages/merge'
+import index from 'src/pages/index'
 
 Vue.use(Router)
 

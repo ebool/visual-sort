@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import OptionsBox from './commons/OptionsBox.vue';
+import OptionsBox from 'src/components/sort/commons/OptionsBox.vue';
 
 export default {
   components: {
