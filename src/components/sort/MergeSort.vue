@@ -9,10 +9,8 @@
 
 <script>
 import OptionsBox from './commons/OptionsBox.vue';
-import store from '@/store/sortStore.js';
 
 export default {
-  store,
   components: {
     OptionsBox
   },

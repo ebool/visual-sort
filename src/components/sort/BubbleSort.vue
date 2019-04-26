@@ -21,10 +21,8 @@ import SortVisualization from './commons/SortVisualization.vue';
 import ExplainBox from './commons/ExplainBox.vue';
 import ProgressBar from './commons/ProgressBar.vue';
 import ControlBox from './commons/ControlBox.vue';
-import store from '@/store/sortStore.js';
 
 export default {
-  store,
   components: {
     OptionsBox,
     SortVisualization,
