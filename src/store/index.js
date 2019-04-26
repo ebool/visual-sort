@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import {makeArray, shuffle} from '@/assets/js/utils.js';
+import {makeArray, shuffle} from 'src/assets/js/utils.js';
 
 Vue.use(Vuex);
 
