@@ -1,39 +1,31 @@
 <template>
-  <ul tag="ul" class="viz-box">
+  <ul :style="getStyle" class="viz-box">
     <li
-      class="item"
-      v-for="(item, idx) in list" :key="idx"
-      :class="{
-        focused : isFocused({idx, item}),
-        sorted : isSorted({idx, item}),
-        selected : isSelected({idx, item}),
-        dismiss : isDismiss({idx, item}),
-        'left-side': isLeft({idx, item}),
-        'right-side': isRight({idx, item})
-      }"
-      :style="{height: (item + 1) * 10 + 'px'}">
+    class="item"
+    v-for="(item, idx) in list" :key="idx"
+    :class="{
+      focused : isFocused({idx, item}),
+      sorted : isSorted({idx, item}),
+      selected : isSelected({idx, item}),
+      dismiss : isDismiss({idx, item}),
+      'left-side': isLeft({idx, item}),
+      'right-side': isRight({idx, item})
+    }"
+    :style="{height: (item + 1) * 10 + 'px'}">
     </li>
   </ul>
-  <!--<transition-group tag="ul" class="viz-box">-->
-    <!--<li-->
-    <!--class="item"-->
-    <!--v-for="(item, idx) in list" :key="idx"-->
-    <!--:class="{-->
-      <!--focused : isFocused({idx, item}),-->
-      <!--sorted : isSorted({idx, item}),-->
-      <!--selected : isSelected({idx, item}),-->
-      <!--dismiss : isDismiss({idx, item}),-->
-      <!--'left-side': isLeft({idx, item}),-->
-      <!--'right-side': isRight({idx, item})-->
-    <!--}"-->
-    <!--:style="{height: (item + 1) * 10 + 'px'}">-->
-    <!--</li>-->
-  <!--</transition-group>-->
 </template>
 
 <script>
 export default {
   props: {
+    list: {
+      type: Array,
+      default: []
+    },
+    borderColor: {
+      default: 'grey'
+    },
     isSorted: {
       type: Function,
       default: () => {return false}
@@ -60,7 +52,15 @@ export default {
     }
   },
   computed: {
-    list () { return this.$store.getters.currentStep.list; }
+    isShow () {
+      return this.list.length > 0;
+    },
+    getStyle () {
+      if (!this.isShow) return {};
+      return {
+        border: `1px solid ${this.borderColor}`
+      }
+    }
   }
 }
 </script>
@@ -68,10 +68,10 @@ export default {
 <style scoped lang="scss">
 @import "src/assets/css/color.scss";
 .viz-box {
+  width: 50%;
   display: flex;
   justify-content: center;
-  margin: 0 0 30px 0;
-  min-height: 150px;
+  padding: 10px;
 
   li {
     list-style: none;
