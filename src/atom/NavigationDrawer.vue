@@ -29,7 +29,7 @@
 export default {
   data () {
     return {
-      drawer: false,
+      drawer: true,
       list : [
         {name: '버블 정렬', path: 'bubble'},
         {name: '선택 정렬', path: 'selection'},
